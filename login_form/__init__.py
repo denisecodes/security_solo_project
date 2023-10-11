@@ -1,7 +1,12 @@
 import os
 from flask import Flask
 from flask_wtf.csrf import CSRFProtect
+from dotenv import load_dotenv
 
+# load env variables
+load_dotenv()
+
+# create csrf token to protect from csrf attacks
 csrf = CSRFProtect()
 
 def create_app(test_config=None):
