@@ -25,7 +25,7 @@ class User():
   def find_by_id(cls, user_id):
     db = get_db()
     query = "SELECT id, username, password FROM user WHERE id = ?"
-    user = db.execute(query, (id,)).fetchone()    
+    user = db.execute(query, (user_id,)).fetchone()    
     if user:
       return User(user['username'], user['password'], user['id'])
     else:
