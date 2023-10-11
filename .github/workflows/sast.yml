@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check secret key
+        run: "echo $SECRET_KEY"
       - uses: actions/checkout@v2
       - name: Bandit - Security Issues in Python code
         uses: mdegis/bandit-action@v1.0
