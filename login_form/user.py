@@ -6,28 +6,28 @@ class User():
   @classmethod
   def create(cls, username, password):
     db = get_db()
-    query = "INSERT INTO user (username, password) VALUES (?, ?)"
-    db.execute(query, (username, password))
+    db.execute("INSERT INTO user (username, password) VALUES (?, ?)", [username, password])
     db.commit()
 
   @classmethod
   def find_with_credentials(cls, username, password):
     db = get_db()
-    query = "SELECT id, username, password FROM user WHERE username = ? AND password = ?"
-    user = db.execute(query, (username, password))
-    print(user)
-    if user:
-        return User(user['username'], user['password'], user['id'])
+    user = db.execute("SELECT id, username, password FROM user WHERE username = ? AND password = ?", [username, password])
+    user_data = user.fetchone()
+    print(user_data)
+    if user_data:
+        return User(user_data['username'], user_data['password'], user_data['id'])
     else:
       return None
 
   @classmethod
   def find_by_id(cls, user_id):
     db = get_db()
-    query = "SELECT id, username, password FROM user WHERE id = ?"
-    user = db.execute(query, (user_id,)).fetchone()    
-    if user:
-      return User(user['username'], user['password'], user['id'])
+    user = db.execute("SELECT id, username, password FROM user WHERE id = ?", [user_id])
+    user_data = user.fetchone()
+    print(user_data)  
+    if user_data:
+      return User(user_data['username'], user_data['password'], user_data['id'])
     else:
       return None
 
@@ -35,4 +35,3 @@ class User():
     self.username = username
     self.password = password
     self.id = id
-
