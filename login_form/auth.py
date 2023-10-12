@@ -26,7 +26,9 @@ def register():
             error = 'Username is required.'
 
         if error is None:
-            User.create(username, password) #hashing and salting password to store in the database would be better, incase someone can access the database
+            # Hash the password before storing into the database
+            hashed_password = generate_password_hash(password)
+            User.create(username, hashed_password)
             return redirect(url_for('auth.login'))
 
         flash(error)
@@ -42,7 +44,7 @@ def login():
         error = None
         user = User.find_with_credentials(username, password) #could be exploited by an attacked through brute force or unauthorised login -> hashing and limiting authentication attempts
 
-        if user is None:
+        if user is None or not check_password_hash(user.password, password):
             error = 'Incorrect username or password.'
 
         if error is None:

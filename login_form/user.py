@@ -6,7 +6,9 @@ class User():
   @classmethod
   def create(cls, username, password):
     db = get_db()
-    db.execute("INSERT INTO user (username, password) VALUES (?, ?)", [username, password])
+    # Hash the password
+    hashed_password = generate_password_hash(password)
+    db.execute("INSERT INTO user (username, password) VALUES (?, ?)", [username, hashed_password])
     db.commit()
 
   @classmethod
@@ -15,7 +17,9 @@ class User():
     user = db.execute("SELECT id, username, password FROM user WHERE username = ? AND password = ?", [username, password])
     user_data = user.fetchone()
     if user_data:
-        return User(user_data['username'], user_data['password'], user_data['id'])
+        stored_password = user_data['password']
+        if check_password_hash(stored_password, stored_password):
+          return User(user_data['username'], stored_password, user_data['id'])
     else:
       return None
 
