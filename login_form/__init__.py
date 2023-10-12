@@ -16,7 +16,7 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     csrf.init_app(app)
-    # fix cookie without samesite attribute to avoid cookie being sent as a result of cross-site erquest
+    # fix cookie without samesite attribute to avoid cookie being sent as a result of cross-site request
     app.config['SESSION_COOKIE_SAMESITE'] = "lax"
     app.config.from_mapping(
         SECRET_KEY= os.environ.get('SECRET_KEY'),
