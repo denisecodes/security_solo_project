@@ -14,7 +14,6 @@ class User():
     db = get_db()
     user = db.execute("SELECT id, username, password FROM user WHERE username = ? AND password = ?", [username, password])
     user_data = user.fetchone()
-    print(user_data)
     if user_data:
         return User(user_data['username'], user_data['password'], user_data['id'])
     else:
@@ -25,7 +24,6 @@ class User():
     db = get_db()
     user = db.execute("SELECT id, username, password FROM user WHERE id = ?", [user_id])
     user_data = user.fetchone()
-    print(user_data)  
     if user_data:
       return User(user_data['username'], user_data['password'], user_data['id'])
     else:
