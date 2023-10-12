@@ -2,6 +2,10 @@ import os
 from flask import Flask
 from flask_wtf.csrf import CSRFProtect
 from dotenv import load_dotenv
+
+#define server name
+SERVER_NAME = "Denise Awesome Server"
+
 # load env variables
 load_dotenv()
 
@@ -12,6 +16,8 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     csrf.init_app(app)
+    # fix cookie without samesite attribute to avoid cookie being sent as a result of cross-site erquest
+    app.config['SESSION_COOKIE_SAMESITE'] = "lax"
     app.config.from_mapping(
         SECRET_KEY= os.environ.get('SECRET_KEY'),
         DATABASE=os.path.join(app.instance_path, 'login_form.sqlite'),
@@ -45,6 +51,10 @@ def create_app(test_config=None):
     def add_security_headers(resp):
         csp = "default-src 'self'; frame-ancestors 'self'; form-action 'self'"
         resp.headers['Content-Security-Policy'] = csp
+        # remove server and x-powdered-by header to mitigate http response vulnerability
+        resp.headers["Server"] = SERVER_NAME
+        # resp.headers["X-Powered-By"] = ""
+        resp.headers["X-Content-Type-Options"] = "nosniff"
         return resp
 
     return app
