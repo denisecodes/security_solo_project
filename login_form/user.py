@@ -13,14 +13,14 @@ class User():
 
   @classmethod
   def find_with_credentials(cls, username, password):
-    db = get_db()
-    user = db.execute("SELECT id, username, password FROM user WHERE username = ? AND password = ?", [username, password])
-    user_data = user.fetchone()
-    if user_data:
-        stored_password = user_data['password']
-        if check_password_hash(stored_password, stored_password):
-          return User(user_data['username'], stored_password, user_data['id'])
-    else:
+      db = get_db()
+      user = db.execute("SELECT id, username, password FROM user WHERE username = ?", [username])
+      user_data = user.fetchone()
+      if user_data:
+          stored_password = user_data['password']
+          # Compare to the hashed password
+          if check_password_hash(stored_password, password): 
+              return User(user_data['username'], stored_password, user_data['id'])
       return None
 
   @classmethod
