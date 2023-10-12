@@ -3,9 +3,6 @@ from flask import Flask
 from flask_wtf.csrf import CSRFProtect
 from dotenv import load_dotenv
 
-#define server name
-SERVER_NAME = "Denise Awesome Server"
-
 # load env variables
 load_dotenv()
 
@@ -22,6 +19,7 @@ def create_app(test_config=None):
         SECRET_KEY= os.environ.get('SECRET_KEY'),
         DATABASE=os.path.join(app.instance_path, 'login_form.sqlite'),
     )
+
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -51,10 +49,9 @@ def create_app(test_config=None):
     def add_security_headers(resp):
         csp = "default-src 'self'; frame-ancestors 'self'; form-action 'self'"
         resp.headers['Content-Security-Policy'] = csp
-        # remove server and x-powdered-by header to mitigate http response vulnerability
-        resp.headers["Server"] = SERVER_NAME
-        # resp.headers["X-Powered-By"] = ""
+        # use the code below to remove server header in flask response in production
+        # del resp.headers['Server']
         resp.headers["X-Content-Type-Options"] = "nosniff"
         return resp
-
+    
     return app
