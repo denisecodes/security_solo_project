@@ -8,3 +8,4 @@ setuptools==68.0.0
 Werkzeug==2.3.6
 bandit==1.7.5
 python-dotenv==1.0.0
+flask_wtf==1.2.1
