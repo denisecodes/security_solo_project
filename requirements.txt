@@ -1,11 +1,11 @@
 # are packages up to date? upgrade to latest version to make it more secure and protected from latest vulnerabilities
 
-click==8.1.4
-Faker==18.13.0
-Flask==2.3.2
-seleniumbase==4.15.13
-setuptools==68.0.0
-Werkzeug==2.3.6
+click==8.1.7
+Faker==19.10.0
+Flask==3.0.0
+seleniumbase==4.20.0
+setuptools==68.2.2
+Werkzeug==3.0.0
 bandit==1.7.5
 python-dotenv==1.0.0
 flask_wtf==1.2.1
