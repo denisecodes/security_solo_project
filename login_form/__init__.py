@@ -2,7 +2,6 @@ import os
 from flask import Flask
 from flask_wtf.csrf import CSRFProtect
 from dotenv import load_dotenv
-
 # load env variables
 load_dotenv()
 
@@ -44,7 +43,8 @@ def create_app(test_config=None):
 
     @app.after_request
     def add_security_headers(resp):
-        resp.headers['Content-Security-Policy']='default-src \'self\''
+        csp = "default-src 'self'; frame-ancestors 'self'; form-action 'self'"
+        resp.headers['Content-Security-Policy'] = csp
         return resp
 
     return app
